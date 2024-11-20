@@ -1,0 +1,184 @@
+A. Title of Assignment + Name:
+/**********************************************************
+* CS15 Fall 2024
+* Project 4: Gerp
+* Date: 20/11/2024
+* Leann Dinh (ldinh01)
+* README
+*********************************************************/
+
+B. The purpose of the program:
+------------------------------
+    Gerp is a program that...
+
+C. Acknowledgments for any help you received:
+---------------------------------------------
+    I used...
+
+D. Files:
+--------
+Phase One:
+    phaseOne.cpp:
+        The 3 functions needed for phase one
+        which were serialize, deserialize, and count 
+        frequencies (and a helper function for deserialize).
+
+    phaseOne.h:
+        Interface of phase one.
+
+    phaseOneTest.cpp:
+        Tests the phaseOne functions using the correct examples from the spec.
+
+Phase Two:
+    README:
+        The file that answers all the questions required from the spec, and 
+        gives a description of everything that is in the file. It provides
+        detailed descriptions of files throughout the phase one and phase two
+        process. 
+
+    Makefile:
+        The file that builds the Zap program.
+
+    HuffmanCoder.cpp:
+        The main file for phase two that contains all the encoding, decoding
+        and catching the errors. Implementation of the HuffmanCoder class.
+    
+    HuffmanCoder.h:
+        The interface of the HuffmanCoder.cpp.
+    
+    unit_tests.h:
+        File needed in the unit_tests framework so the autograder can run. 
+    
+    testingZap.sh:
+        Bash file to do all the terminal unit testing executions for all cases
+        in txt.
+
+    main.cpp:
+        The driver file for zap. Main file is short and handles simple driver
+        functions. 
+
+    same.txt: Test input data for multiple same char.
+    empty.txt: Test input data empty file
+    one.txt: Test input data for one char
+    filedoesnotopen.txt: Test input data for nonexistent file
+
+    banana.txt: Test input data given by spec
+    hi.txt: Test input data given by spec
+    banana_apple.txt: Test input data given by spec
+    sentences.txt: Test input data given by spec
+    all_conll_english.txt: Test input data given by spec
+    works_of_shakespeare.txt: Test input data given by spec
+    ecoli.coli: Test input data given by spec
+
+E. Compile and run:
+-------------------------------------------------------
+    phaseOne:
+        - Compile phase one using
+                make phaseOne
+        - run executable of phase one with
+                ./phaseOne
+    phase two:
+        - Compile using
+                make Zap
+        - run executable with 
+                ./zap [zap | unzap] inputFile outputFile
+        - run tests with bash file
+                ./testingZap.sh
+
+F. Data Structures:
+------------------
+Trees: 
+    The Huffman Coding Algorithm to help us store frequencies
+    in a tree. This is the most prominent data structure in my code. This was
+    used because it was required in the assignment. The reason why it's 
+    useful is because, Huffman trees are made by repeatedly merging two nodes 
+    with the lowest frequency into a new node until only one node remains 
+    (the root of the tree). This helps us compress and decompress the text
+    easier along with taking up less storage due to the nature of how the 
+    algorithm works, snce it reduces the size of the data without losing any
+    information. Since the idea of Huffman coding is to assign variable length
+    codes to input characters, where the lengths of the codes are based on 
+    frequencies, this helps distinguish characters. The variable length codes
+    are known as prefix codes in this case, and they help make it so that there 
+    is no ambiguitiy in the decoding process. Always remember that the 
+    frequency of the characters in a file, or in general the frequencies of
+    data items that are used to build a tree are arranged so that the most 
+    frequent items are closer to the root.
+    
+    Other uses I can think of for the Huffman coding algorithm
+    can be other forms of data compression like, compressing jpegs. Another can 
+    be generating unique prefix codes (like I touched upon before).
+    
+    Map: 
+    ---
+    A data structure used in phaseOne was map. A map is a 
+    data structure that store key value pairs, which makes it easier to store 
+    frequencies and what not. Each key has access to a pair of values.
+    In phase two, maps were used 
+    to help the encode text process, and the build tree process by having a 
+    data structure to store the frequencies. They stored the frequencies of 
+    how many times a character appeared in our text file. Key value pairs 
+    are different from previous data structures because they are more 
+    searchable to find the keys and the values, in my case the char and the
+    frequencies. Maps a great because they have member functions that can 
+    save a lot of time. In my case I used an ordered map, since that was what 
+    I found first and it offers a good organization of the key values.
+    Maps maintain unique keys, which is ideal for counting frequencies where 
+    each character or data item is represented uniquely.
+
+    Examples are that they can store grades of people in CS15 class, with a 
+    name and their grade, where a key is the name string and grade is 
+    the int value. 
+
+    Priority queue: 
+    ---------------
+    To build my HuffmanTree, I used a priority queue to 
+    compare the freq fields of the two provided HuffmanTreeNodes. 
+    A priority queue get the node with the lowest 
+    frequency during the making of the Huffman tree while being super efficient.
+    The reason why it's super efficient is because it dequeues the nodes that
+    have the highest priority, in our case, the nodes with the lowest 
+    frequencies are dequeued first. 
+    This is really important 
+    because the algorithm requires the two least frequent nodes to 
+    be merged contioulsy. Using a priority queue along with 
+    the Huffman coding algorithm's tree ensures that these nodes 
+    can be accessed in the fastest time possible, log time. 
+
+    An example of another use for a priority queue is I think the lab we did
+    which is Dijstra's algorithm, that uses a priority queue. I guess if you 
+    wanted a real life example the hospital would be a great one since the 
+    patients with the biggest emergency get taken care of first.
+
+G. Testing:
+----------
+Phase One:
+    I tested the functions using the tests that had a correct input from
+    the spec. Some things I tested for was space characters, counting
+    baNana, hi hi \n hi, characters that weren't in the string, and using 
+    IIILaLbILeLfILcLd from the spec to construct a tree and deserialize it.
+    My program passed those tests, so I had more confidence to submit 
+    phaseOne.    
+
+Phase Two:
+    In my count frequencies, I needed to double check using this, to make
+    sure that we have the same frequencies
+    cout << "Counted character: " << character << ", count: " << 
+    newMap[character] << endl;
+
+    I had a lot of issues first trying the test case of 
+    unzapBanana.out. This was the normal edge case, and at first I wasn't
+    sure on why the diff wasn't working but then I saw the difference
+    between cout and cerr. This made it hard for me to set the base for 
+    the rest of the cases. But in the end, I fixed the general encoder and
+    saw that along with my own edge cases, I had a lot of tests that I had
+    to input in my terminal. Instead of copy pasting every one of them,
+    I again used a bash file. I'm still not super
+    sure on how some elements of the bash file works, but now I've got 
+    echo and redirection understood better and I feel like I'll be able 
+    to make more in the future. 
+
+I. Time Spent:
+--------------
+    Phase one: 15 hours
+    Phase two: ~40 hours
